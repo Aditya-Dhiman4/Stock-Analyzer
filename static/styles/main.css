@@ -1,0 +1,91 @@
+*, html {
+    margin:0;
+    padding:0;
+    font-size: calc(17px + 0.390625vw);
+    animation-timing-function: linear;  
+}
+body {
+    background-color: rgb(38, 38, 60); 
+}
+
+:root {
+    --font: Arial, Helvetica, sans-serif; 
+    --textColorDark: rgb(178, 178, 182);
+}
+.nav {
+    display: inline-block;
+    text-align: center;
+    font-family: var(--font);
+    color: var(--textColorDark);
+    background-image: linear-gradient(to bottom, rgb(22, 22, 31), rgb(26, 26, 42, 0));
+    width: 100%;
+    margin-bottom: 1%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+}
+
+#search input[type=text]{
+    background-color: rgb(26, 26, 42);
+    color: var(--textColorDark);
+    border: none;
+    border-radius: 100px;
+    padding-left: 20px;
+    width: 100%;
+    height: 50px;
+}
+
+#search {
+    margin: 0 auto;
+    width: 60%;
+    padding: 20%;
+}
+
+#priceChart {
+    background-color: rgb(26, 26, 42);
+    border-radius: 25px;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 1.5%;
+    box-shadow: 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.doc {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20%;
+    background: rgb(228, 228, 228);
+    position: relative;
+    width: 100%;
+    padding: 1%;
+}
+th, td {
+    max-width: 0px;
+    padding: 3%;
+    margin: 0px;
+}
+
+tr:nth-child(even) {
+    background-color: #B6E7FF;
+}
+
+tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+table {
+    margin: 1% auto;
+    width: 90%;
+    font-family: var(--font);
+    margin-top: 3%;
+}
+
+th {
+    background-color: rgb(26, 26, 42);
+    color: var(--textColorDark);
+}
+
+td {
+    font-size: 17px;
+    text-align: center;
+    padding: 4%;
+}

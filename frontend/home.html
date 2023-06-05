@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href="static\styles\main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Stock Analyzer</title>
+</head>
+
+<div class="nav">
+    <header>
+        <h1>Stock Analyzer</h1>
+    </header>
+</div>
+
+<body>
+    <div>
+        <form id="search" onsubmit="mySymbol(event)" method="GET">
+            <input type="text" placeholder="Enter Stock Symbol" name="symbol">
+        </form>
+    </div>
+</body>
+
+<div>
+    <footer class="doc">
+        <h2>Documentation</h2>
+        <ul>
+            <li>THIS PROGRAM IS NOT FINANCIAl ADVICE!</li>
+            <li>..............</li>
+        </ul>
+    </footer>
+</div>
+<script>
+function mySymbol(event) {
+    const symbol = event.target.elements.symbol.value;
+    localStorage.setItem('symbol', symbol)
+    window.open('http://127.0.0.1:5000/stock_report?symbol='+symbol)
+};
+</script>
+</html>

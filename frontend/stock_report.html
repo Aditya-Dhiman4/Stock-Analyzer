@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Stock Analyzer - Stock Report</title>
+</head>
+<body>
+<div class="nav">
+  <header>
+    <h1>Stock Analyzer: {{ symbol }}</h1>
+  </header>
+</div>
+<div>
+    <canvas id="priceChart" width="1000", height="600"></canvas>
+</div>
+<div style="overflow-x:auto">
+  <table cellspacing="0">
+      <tr>
+        <th><h1>Bullish or Bearish</h1></th>
+        <th><h1>High/Low Volatility</h1></th>
+      </tr>
+  </table>
+  <table cellspacing="0">
+      <tr>
+          <td><h2>PEG Ratio</td>
+          <td id="pegRatio">{{ peg }}</td>
+          <td><h2>Beta</h2></td>
+          <td id="Beta">{{ beta }}</td>
+      </tr>
+      <tr>
+          <td><h2>High/Low</h2></td>
+          <td id="yearlyHighlow">{{ high_low }}</td>
+          <td><h2>Dividend Yield</h2></td>
+          <td id="divYield">{{ dividend }}</td>
+      </tr>
+      <tr>
+          <td><h2>Coefficient of Variation</h2></td>
+          <td id="CoefficientVariation">{{ cv }}</td>
+      </tr>
+    </table>
+</div>
+</body>
+<script>
+    var ctx = document.getElementById('priceChart').getContext('2d');
+    
+    const gradient = ctx.createLinearGradient(0, 0, 0, 822);
+    
+    gradient.addColorStop(0, 'rgba(24, 160, 186, 0.5)');
+    gradient.addColorStop(0.5, 'rgba(24, 160, 186, 0)');
+
+    const data = {
+      labels: {{dates|safe}},
+      datasets: [{
+        label: '{{ symbol }} Price Over Time',
+        data: {{prices|safe}},
+        backgroundColor: gradient,
+        borderColor: 'rgba(24, 160, 186, 1)',
+        fill: true
+      }]
+    };
+
+    const priceChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }          
+    });
+</script>
+<script>
+    const symbol = localStorage.getItem('symbol')
+    document.getElementById('hello').innerHTML = symbol
+</script>
+</html>
