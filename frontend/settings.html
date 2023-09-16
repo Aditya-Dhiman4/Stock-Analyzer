@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel= "stylesheet" type= "text/css" href="static\styles\main.css">
+        <title>Settings</title>
+    </head>
+    <body>
+        <div>
+            <h2>Import Stock Data</h2>
+            <form id="search" onsubmit="mySymbol(event)" method="GET">
+                <input type="text" placeholder="Enter Symbol To Insert Data" name="symbol">
+            </form>
+            <h2>{{ insert_status }}</h2>
+        </div>
+    </body>
+    <script>
+        function mySymbol(event) {
+            const symbol = event.target.elements.symbol.value;
+            localStorage.setItem('symbol', symbol)
+            window.location.reload('http://127.0.0.1:5000/settings?symbol='+symbol)
+        };
+        </script>
+</html>
+
+

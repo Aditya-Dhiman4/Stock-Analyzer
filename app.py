@@ -39,13 +39,28 @@ def stock_report():
     high_low = calc.yearly_high_low_BullBear(yearly_weekhigh, yearly_weeklow, current_price)
     peg = calc.peg_ratio_BullBear(peg_ratio)
     dividend = calc.dividend_yield_Volatility(dividend_yield)
-    prices = list(time_series_data['close_price'][::-1])
-    dates = list(time_series_data['trade_date'][::-1])
+    prices = list(time_series_data['close_price'])
+    dates = list(time_series_data['trade_date'])
     cv = calc.volatility_variation(prices)
 
     # rendering stock screen template, passing calculations to the stock report template
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     return render_template('stock_report.html', beta=beta, high_low=high_low, peg=peg, dividend=dividend, prices=prices, dates=dates , symbol=symbol, cv=cv)
 
+
+@app.route('/settings', methods=['GET'])
+def settings():
+
+    symbol = request.args.get('symbol')
+    insert_status = 'Not Active'
+
+    try:
+        db.stock_data(symbol)
+        insert_status = 'Successful'
+    except:
+        insert_status = 'Failed'
+    
+    return render_template('settings.html', insert_status=insert_status)
 
 if __name__ == '__main__':
     app.run(debug=True)

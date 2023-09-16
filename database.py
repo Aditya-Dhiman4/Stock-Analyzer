@@ -1,16 +1,20 @@
 import psycopg2 as ps
 import pandas as pd
 import requests
+import os
+from dotenv import load_dotenv
+from all_data import data
 
 # used for controlling postgresql database
 class database:
   # When calling the class, the variables in the __init__ function are also inputted by the user
-  def __init__(self, host, user, password, database, port):
+  def __init__(self, host, user, password, database, port, api_key):
     self.host = host
     self.user = user
     self.password = password
     self.database = database
     self.port = port
+    self.api_key = api_key
   
   def connect(self):
     connection = ps.connect(host=self.host,user=self.user,password=self.password,database=self.database,port=self.port)
@@ -18,17 +22,9 @@ class database:
 
   def stock_data(self, symbol):
 
-    # retriving json file with price and volume data
-    time_series_daily = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={symbol}&apikey=YW9W7ZBX5RBNC6V7'
-    overview = f'https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}&apikey=YW9W7ZBX5RBNC6V7'
-
-    # requesting data from link
-    r_time_series_daily = requests.get(time_series_daily)
-    r_overview = requests.get(overview)
-
-    # sticking data into a json file from that link
-    time_series_data = r_time_series_daily.json()
-    overview_data = r_overview.json()
+    # obtaining data from all_data file
+    time_series_data = data.TIME_SERIES_DAILY(symbol)
+    overview_data = data.COMPANY_OVERVIEW(symbol)
 
     # converting json keys into list and then deleting unecessary keys
     keys = list(overview_data.keys())
@@ -113,7 +109,7 @@ class database:
         high = time_series_data['Time Series (Daily)'][dates]['2. high']
         low = time_series_data['Time Series (Daily)'][dates]['3. low']
         close = time_series_data['Time Series (Daily)'][dates]['4. close']
-        volume = time_series_data['Time Series (Daily)'][dates]['6. volume']
+        volume = time_series_data['Time Series (Daily)'][dates]['5. volume']
         
         command = f'''
             insert into public.all_stock_data (
@@ -176,8 +172,17 @@ class database:
     finally:
         connection.close()
 
+load_dotenv()
+
+HOST = os.getenv('HOST')
+USER = os.getenv('USER')
+PASSWORD = os.getenv('PASSWORD')
+DATABASE = os.getenv('DATABASE')
+PORT = os.getenv('PORT')
+API_KEY = os.getenv('API_KEY')
+
 # Variables are empty so other people cannot see private database information
-db = database('db.bit.io', 'aditya16dhiman', 'v2_443VN_G3sgHuvR6ShwbeDZZ2xQe2X', 'aditya16dhiman.stockdb', '5432')
+db = database(HOST, USER, PASSWORD, DATABASE, PORT, API_KEY)
 print(db.connect())
 # print(db.select_to_df('''
 # select symbol, trade_date, open_price, high_price, low_price, close_price, volume

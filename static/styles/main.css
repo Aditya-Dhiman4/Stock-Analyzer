@@ -1,7 +1,7 @@
 *, html {
     margin:0;
     padding:0;
-    font-size: calc(17px + 0.390625vw);
+    font-size: 3vh;
     animation-timing-function: linear;  
 }
 body {
@@ -10,7 +10,7 @@ body {
 
 :root {
     --font: Arial, Helvetica, sans-serif; 
-    --textColorDark: rgb(178, 178, 182);
+    --textColorDark: rgb(204, 204, 208);
 }
 .nav {
     display: inline-block;
@@ -20,16 +20,19 @@ body {
     background-image: linear-gradient(to bottom, rgb(22, 22, 31), rgb(26, 26, 42, 0));
     width: 100%;
     margin-bottom: 1%;
-    padding-top: 1.5%;
-    padding-bottom: 1.5%;
+    padding-top: 2.5%;
+    padding-bottom: 5%;
 }
 
 #search input[type=text]{
     background-color: rgb(26, 26, 42);
     color: var(--textColorDark);
+    font-size: 2.3vh;
     border: none;
     border-radius: 100px;
-    padding-left: 20px;
+    padding: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
     width: 100%;
     height: 50px;
 }
@@ -37,7 +40,7 @@ body {
 #search {
     margin: 0 auto;
     width: 60%;
-    padding: 20%;
+    padding: 13%;
 }
 
 #priceChart {
@@ -50,9 +53,10 @@ body {
 }
 
 .doc {
-    display: inline-block;
+    position: fixed;
+    bottom: 0;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20%;
+    font-size: 2.3vh;
     background: rgb(228, 228, 228);
     position: relative;
     width: 100%;
