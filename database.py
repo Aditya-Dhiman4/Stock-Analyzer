@@ -1,14 +1,13 @@
 import psycopg2 as ps
 import pandas as pd
-import requests
 import os
 from dotenv import load_dotenv
-from all_data import data
+from stockmarketdata import smd
 
 # used for controlling postgresql database
 class database:
   # When calling the class, the variables in the __init__ function are also inputted by the user
-  def __init__(self, host, user, password, database, port, api_key):
+  def __init__(self, host: str, user, password, database, port, api_key) -> None:
     self.host = host
     self.user = user
     self.password = password
@@ -16,15 +15,15 @@ class database:
     self.port = port
     self.api_key = api_key
   
-  def connect(self):
+  def connect(self) -> None:
     connection = ps.connect(host=self.host,user=self.user,password=self.password,database=self.database,port=self.port)
     return connection
 
-  def stock_data(self, symbol):
+  def insert_data(self, symbol):
 
     # obtaining data from all_data file
-    time_series_data = data.TIME_SERIES_DAILY(symbol)
-    overview_data = data.COMPANY_OVERVIEW(symbol)
+    time_series_data = smd.TIME_SERIES_DAILY(symbol)
+    overview_data = smd.COMPANY_OVERVIEW(symbol)
 
     # converting json keys into list and then deleting unecessary keys
     keys = list(overview_data.keys())
@@ -97,7 +96,7 @@ class database:
             {overview_data[keys[28]]}
         );    
         '''
-    self.insert(command)
+    self.execute(command)
 
     # returns last 30 trading days
     trade_dates = list(time_series_data['Time Series (Daily)'].keys())[0:30]
@@ -131,7 +130,7 @@ class database:
             {volume}
             );
         '''
-        self.insert(command)
+        self.execute(command)
 
   # function that selects required data requested from user and inserts it into a pandas dataframe for manipulation
   def select_to_df(self, command):
@@ -160,7 +159,7 @@ class database:
     finally:
       connection.close()
 
-  def insert(self, command):
+  def execute(self, command):
     connection = self.connect()
     try:
         cursor = connection.cursor()
@@ -181,10 +180,7 @@ DATABASE = os.getenv('DATABASE')
 PORT = os.getenv('PORT')
 API_KEY = os.getenv('API_KEY')
 
+print(HOST, USER, PASSWORD, DATABASE, PORT, API_KEY)
 # Variables are empty so other people cannot see private database information
 db = database(HOST, USER, PASSWORD, DATABASE, PORT, API_KEY)
 print(db.connect())
-# print(db.select_to_df('''
-# select symbol, trade_date, open_price, high_price, low_price, close_price, volume
-# from public.all_stock_data
-# '''))

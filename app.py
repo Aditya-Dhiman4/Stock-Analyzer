@@ -55,7 +55,7 @@ def settings():
     insert_status = 'Not Active'
 
     try:
-        db.stock_data(symbol)
+        db.insert_data(symbol)
         insert_status = 'Successful'
     except:
         insert_status = 'Failed'
